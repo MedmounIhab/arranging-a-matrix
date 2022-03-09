@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int i, j ;
+
+
+/* procedure qui lire les elements du matrice */
+void remplir_matrice ( int n, int m, int mat [ n ] [ m ] )
+{
+    printf("remplir le matrice : \n");
+    for ( i = 0 ; i < n ; i++ )
+    {
+        for ( j = 0 ; j < m ; j++ )
+        {
+            printf("l'element [%d][%d] : ", i + 1, j + 1 );
+            scanf("%d", & mat [ i ] [ j ] );
+        }
+    }
+}
+
+
+/* procedure de trie du matrice */
+void trie_croissant_matrice ( int n, int m, int mat [ n ] [ m ] )
+{
+    int l = 0, c = 0, tmp = mat [ l ] [ c ], i_max = 0, j_max = 0, a, b = 0 ;
+    while ( l * ( c + 1 ) + ( c + 1 ) != n * m  )
+    {
+        a = c + 1 ;
+        if ( c == m - 1 )
+        {
+            a = 0 ;
+            b++ ;
+        }
+        for ( i = b ; i < n ; i++ )
+        {
+            for ( j = a/*3*/ ; j < m ; j++ )
+            {
+                if ( mat [ i ] [ j ] > tmp )
+                {
+                    tmp = mat [ i ] [ j ] ;
+                    i_max = i ;
+                    j_max = j ;
+                }
+            }
+            a = 0 ;
+        }
+        mat [ i_max ] [ j_max ] = mat [ l ] [ c ] ;
+        mat [ l ] [ c ] = tmp ;
+        if ( c <= m - 1 )
+        {
+            c++ ;
+            b = l ;
+            tmp = mat [ l ] [ c ] ;
+            i_max = i ;
+            j_max = j ;
+        }
+        if ( c > m - 1 )
+        {
+            c = 0 ;
+            l++ ;
+            b = l ;
+            tmp = mat [ l ] [ c ] ;
+            i_max = i ;
+            j_max = j ;
+        }
+    }
+}
+
+
+/* procedure d'affichage du matrice */
+void affichage_matrice ( int n, int m, int matrice [ n ] [ m ] )
+{
+    printf("\n*****affichage_matrice*****\n");
+    for ( i = 0 ; i < n ; i++ )
+    {
+        for ( j = 0 ; j < m ; j++ )
+        {
+            printf("%d ", matrice [ i ][ j ] );
+        }
+        printf("\n\n-----ligne [%d]-----\n", i + 1);
+    }
+    printf("\n***********************\n");
+}
+
+
+int main()
+{
+    /* acquisage de dimmention du matrice  */
+    int lignes, colonnes ;
+    printf("saisissez le nombre des lignes de matrice : ");
+    scanf("%d",&lignes);
+    while ( lignes < 1 )
+    {
+        printf("le nombre des lignes du matrice saisie est insuffisant\nresaisissez le nombre des lignes de matrice : ");
+        scanf("%d",&lignes);
+    }
+    printf("saisissez le nombre des colonnes de matrice : ");
+    scanf("%d",&colonnes);
+    while ( colonnes < 1 )
+    {
+        printf("le nombre des colonnes du matrice saisie est insuffisant\nresaisissez le nombre des colonnes de matrice : ");
+        scanf("%d",&colonnes);
+    }
+    int matrice [ lignes ] [ colonnes ] ;
+    remplir_matrice ( lignes, colonnes, matrice ) ;
+    affichage_matrice ( lignes, colonnes, matrice ) ;
+    trie_croissant_matrice ( lignes, colonnes, matrice ) ;
+    affichage_matrice ( lignes, colonnes, matrice ) ;
+    return 0;
+}
